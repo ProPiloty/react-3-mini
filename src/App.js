@@ -12,7 +12,8 @@ class App extends Component {
 
     this.state = {
       vehiclesToDisplay: [],
-      buyersToDisplay: []
+      buyersToDisplay: [],
+      baseURL: 'https://joes-autos.herokuapp.com/api',
     };
 
     this.getVehicles = this.getVehicles.bind(this);
@@ -31,16 +32,43 @@ class App extends Component {
   getVehicles() {
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios
+      .get(`${this.state.baseURL}/vehicles`)
+      .then(res => {
+        this.setState({ vehiclesToDisplay: res.data });
+        toast.success('It worked');
+      })
+      .catch(err => {
+        toast.error('It broke')
+      });
   }
 
   getPotentialBuyers() {
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios
+      .get(`${this.state.baseURL}/buyers`)
+      .then(res => {
+        this.setState({ buyersToDisplay: res.data});
+        toast.success('It worked');
+      })
+      .catch(err => {
+        toast.error('It broke');
+      });
   }
 
   sellCar(id) {
     // axios (DELETE)
     // setState with response -> vehiclesToDisplay
+    axios
+      .delete(`${this.state.baseURL}/vehicles/${id}`)
+      .then(res => {
+        this.setState({ vehiclesToDisplay: res.data.vehicles });
+        toast.success('It worked');
+      })
+      .catch(err => {
+        toast.error('It broke');
+      });
   }
 
   filterByMake() {
@@ -48,6 +76,16 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios
+      .get(`${this.state.baseURL}/vehicles?make=${make}`)
+      .then(res => {
+        console.log(res);
+        this.setState({ vehiclesToDisplay: res.data });
+        toast.success('It worked');
+      })
+      .catch(err => {
+        toast.error('It failed');
+      });
   }
 
   filterByColor() {
@@ -55,11 +93,29 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios
+      .get(`${this.state.baseURL}/vehicles?color=${color}`)
+      .then(res => {
+        this.setState({ vehiclesToDisplay: res.data });
+        toast.success('It worked');
+      })
+      .catch(err => {
+        toast.error('It failed');
+      });
   }
 
   updatePrice(priceChange, id) {
     // axios (PUT)
     // setState with response -> vehiclesToDisplay
+    axios
+      .put(`${this.state.baseURL}/vehicles/${id}/${priceChange}`)
+      .then(res => {
+        this.setState({ vehiclesToDisplay: res.data.vehicles });
+        toast.success('Success');
+      })
+      .catch(err => {
+        toast.error('It Failed');
+      });
   }
 
   addCar() {
@@ -73,6 +129,15 @@ class App extends Component {
 
     // axios (POST)
     // setState with response -> vehiclesToDisplay
+    axios
+      .post(`${this.state.baseURL}/vehicles`, newCar)
+      .then(res => {
+        this.setState({ vehiclesToDisplay: res.data.vehicles });
+        toast.success('Success');
+      })
+      .catch(err => {
+        toast.error('It failed');
+      });
   }
 
   addBuyer() {
@@ -84,11 +149,29 @@ class App extends Component {
 
     //axios (POST)
     // setState with response -> buyersToDisplay
+    axios
+      .post(`${this.state.baseURL}/buyers`, newBuyer)
+      .then(res => {
+        this.setState({ buyersToDisplay: res.data.buyers })
+        toast.success('It worked')
+      })
+      .catch(err => {
+        toast.error('It failed')
+      });
   }
 
   deleteBuyer(id) {
     // axios (DELETE)
     //setState with response -> buyersToDisplay
+    axios
+      .delete(`${this.state.baseURL}/buyers/${id}`)
+      .then(res => {
+        this.setState({ buyersToDisplay: res.data.buyers});
+        toast.success('It worked')
+      })
+      .catch(err => {
+        toast.error('It failed')
+      });
   }
 
   nameSearch() {
@@ -96,6 +179,16 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios
+      .get(`${this.state.baseURL}/buyers?name=${searchLetters}`)
+      .then(res => {
+        console.log(res)
+        this.setState({ buyersToDisplay: res.data });
+        toast.success('It worked')
+      })
+      .catch(err => {
+        toast.error('It failed')
+      });
   }
 
   byYear() {
@@ -103,6 +196,15 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios
+      .get(`${this.state.baseURL}/vehicles?year=${year}`)
+      .then(res => {
+        this.setState({ vehiclesToDisplay: res.data })
+        toast.success('It worked')
+      })
+      .catch(err => {
+        toast.error('It failed')
+      });
   }
 
   // Do not edit the code below
